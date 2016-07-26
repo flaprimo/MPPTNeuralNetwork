@@ -10,8 +10,8 @@
 typedef struct pvPanel {
     struct pvPanelSpec *pvpanelSpec;
 
-    double vCurr;
-    double iCurr;
+    long double vCurr;
+    long double iCurr;
 } pvPanel;
 
 pvPanel *pvpanel_get(double vCurr, pvPanelSpec *pvpanelSpec);
