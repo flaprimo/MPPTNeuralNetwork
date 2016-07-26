@@ -24,7 +24,7 @@ typedef struct pvPanel {
     double n;
     double rs;
     double rp;
-    double eg;
+    long double eg;
     long double io;
     double irr;
 
