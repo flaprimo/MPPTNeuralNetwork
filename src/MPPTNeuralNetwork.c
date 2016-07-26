@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include "perceptron/training.h"
 #include "perceptron/perceptron.h"
+#include "pvpanel/pvpanelSpec.h"
 #include "pvpanel/pvpanel.h"
 
-int main() {
+int main()
+{
     /*
      * Create Perceptron
      */
@@ -95,8 +97,14 @@ int main() {
      */
 
     /*
+     * get pvpanelSpec and print it
+     */
+    pvPanelSpec *pvpanelSpec = pvpanelSpec_get();
+    pvpanelSpec_print(pvpanelSpec);
+
+    /*
      * get pvpanel and print it
      */
-    pvPanel *pvpanel = pvpanel_get();
+    pvPanel *pvpanel = pvpanel_get(1100, pvpanelSpec);
     pvpanel_print(pvpanel);
 }
