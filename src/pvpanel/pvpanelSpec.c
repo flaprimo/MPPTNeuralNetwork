@@ -19,7 +19,7 @@ double pvpanelSpec_convertCelsiusToKelvin(double temperature_celsius)
  */
 pvPanelSpec *pvpanelSpec_get()
 {
-    pvPanelSpec *pvpanelSpec = malloc(sizeof(pvpanelSpec));
+    pvPanelSpec *pvpanelSpec = malloc(sizeof(pvPanelSpec));
 
     pvpanelSpec->q = 1.602E-19;
     pvpanelSpec->k = 1.3806503E-23;

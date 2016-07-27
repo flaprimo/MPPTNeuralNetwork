@@ -3,22 +3,7 @@
 #include <math.h>
 #include "pvpanel.h"
 
-const int NEWTON_RAPHSON_ITERATIONS = 1;
-/* Matlab implementation of the function
-function [Ipl] = Pannello(S,V)
-
-% Newton-Raphson
-I = 0;
-for ct = 1:50
-
-    F = I - (S.Irr - S.I0 .* (exp(S.q ./ S.k ./ S.T ./ S.n ./ S.Ns .* (V + I .* S.Rs)) - 1) - (V + I .* S.Rs) ./ S.Rp);
-    dF = 1 - ( -S.I0 * S.q ./ S.k ./ S.T ./ S.n ./ S.Ns .* S.Rs .* exp(S.q ./ S.k ./ S.T ./ S.n ./ S.Ns .* (V + I .* S.Rs)) - S.Rs ./ S.Rp);
-
-    I = I - F ./ dF;
-end
-
-Ipl = I;
-*/
+const int NEWTON_RAPHSON_ITERATIONS = 50;
 
 /**
  * Given a tension and a photovoltaic panel specification it returns the photovoltaic panel current.
@@ -32,15 +17,12 @@ long double pvpanel_newtonRaphson(pvPanelSpec *pvpanelSpec, long double vCurr)
 
     for (int i = 0; i < NEWTON_RAPHSON_ITERATIONS; i++) {
 
-        printf("\n%Le\n", pvpanelSpec->q / pvpanelSpec->k / pvpanelSpec->t / pvpanelSpec->n / pvpanelSpec->nS * (vCurr + iCurr * pvpanelSpec->rs));
         long double f = iCurr - (pvpanelSpec->irr - pvpanelSpec->io *
                 (expl(pvpanelSpec->q / pvpanelSpec->k / pvpanelSpec->t / pvpanelSpec->n / pvpanelSpec->nS * (vCurr + iCurr * pvpanelSpec->rs)) - 1) -
                 (vCurr + iCurr * pvpanelSpec->rs) / pvpanelSpec->rp);
-        printf("\nf: %Le\n", f);
         long double dF = 1 - (-pvpanelSpec->io * pvpanelSpec->q / pvpanelSpec->k / pvpanelSpec->t / pvpanelSpec->n / pvpanelSpec->nS *
                 expl(pvpanelSpec->q / pvpanelSpec->k / pvpanelSpec->t / pvpanelSpec->n / pvpanelSpec->nS * (vCurr + iCurr * pvpanelSpec->rs)) -
                 pvpanelSpec->rs / pvpanelSpec->rp);
-        printf("\ndF: %Le\n", dF);
 
         iCurr = iCurr - f / dF;
     }
@@ -54,9 +36,9 @@ long double pvpanel_newtonRaphson(pvPanelSpec *pvpanelSpec, long double vCurr)
  * @param pvpanelSpec
  * @return
  */
-pvPanel *pvpanel_get(double vCurr, pvPanelSpec *pvpanelSpec)
+pvPanel *pvpanel_get(long double vCurr, pvPanelSpec *pvpanelSpec)
 {
-    pvPanel *pvpanel = malloc(sizeof(pvpanel));
+    pvPanel *pvpanel = malloc(sizeof(pvPanel));
 
     pvpanel->pvpanelSpec = pvpanelSpec;
     pvpanel->vCurr = vCurr;

@@ -14,7 +14,7 @@ typedef struct pvPanel {
     long double iCurr;
 } pvPanel;
 
-pvPanel *pvpanel_get(double vCurr, pvPanelSpec *pvpanelSpec);
+pvPanel *pvpanel_get(long double vCurr, pvPanelSpec *pvpanelSpec);
 void pvpanel_print(pvPanel *pvpanel);
 
 #endif //MPPTNEURALNETWORK_PVPANEL_H
