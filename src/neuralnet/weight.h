@@ -13,7 +13,8 @@ typedef struct weight_t {
 } Weight;
 
 Weight *weight_get(int rowNumber, int columnNumber);
-void weight_delete(Weight *weight);
+void weight_free(Weight *weight);
+void weight_freeVoidPointer(void *weightVoidPointer);
 void weight_print(Weight *weight);
 
 #endif //MPPTNEURALNETWORK_WEIGHT_H

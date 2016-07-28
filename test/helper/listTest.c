@@ -1,9 +1,17 @@
 #include <stdlib.h>
 #include "../unity/unity_fixture.h"
 #include "../../src/helper/list.h"
-#include "../../src/helper/list.c"
 
 TEST_GROUP(listTest);
+
+/*
+ * HELPER FUNCTIONS
+ */
+void freeIntPointer(void *integerVoidPointer)
+{
+    if (integerVoidPointer != NULL)
+        free((int *)integerVoidPointer);
+}
 
 /*
  * FIXTURES
@@ -30,8 +38,7 @@ TEST_SETUP(listTest)
 // run after each test
 TEST_TEAR_DOWN(listTest)
 {
-    list_removeFirst(&l1);
-    list_removeFirst(&l1);
+    list_removeAll(&l1, freeIntPointer);
 }
 
 /*
@@ -45,12 +52,15 @@ TEST(listTest, list_getTest)
     TEST_ASSERT_NULL(list_get(l1, 3));
 }
 
-TEST(listTest, list_removeFirstTest)
+TEST(listTest, list_removeTest)
 {
-    list_removeFirst(&l1);
-    TEST_ASSERT_EQUAL(10, *(int *)list_get(l1, 0));
+    list_remove(&l1, 2, freeIntPointer);
+    TEST_ASSERT_EQUAL(11, *(int *)list_get(l1, 0));
 
-    list_removeFirst(&l1);
+    list_remove(&l1, 1, freeIntPointer);
+    TEST_ASSERT_EQUAL(11, *(int *)list_get(l1, 0));
+
+    list_remove(&l1, 0, freeIntPointer);
     TEST_ASSERT_NULL(list_get(l1, 0));
 }
 
@@ -60,5 +70,5 @@ TEST(listTest, list_removeFirstTest)
 TEST_GROUP_RUNNER(listTest)
 {
     RUN_TEST_CASE(listTest, list_getTest);
-    RUN_TEST_CASE(listTest, list_removeFirstTest);
+    RUN_TEST_CASE(listTest, list_removeTest);
 }

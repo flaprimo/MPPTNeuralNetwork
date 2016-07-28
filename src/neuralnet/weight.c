@@ -22,13 +22,19 @@ Weight *weight_get(int rowNumber, int columnNumber)
     return weight;
 }
 
-void weight_delete(Weight *weight)
+void weight_free(Weight *weight)
 {
     for (int i = 0; i < weight->rowNumber; i++)
         free(weight->matrix[i]);
 
     free(weight->matrix);
     free(weight);
+}
+
+void weight_freeVoidPointer(void *weightVoidPointer)
+{
+    if (weightVoidPointer != NULL)
+        weight_free((Weight *) weightVoidPointer);
 }
 
 /**

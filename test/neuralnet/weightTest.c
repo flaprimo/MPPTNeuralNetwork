@@ -1,6 +1,5 @@
 #include "../unity/unity_fixture.h"
 #include "../../src/neuralnet/weight.h"
-#include "../../src/neuralnet/weight.c"
 
 TEST_GROUP(weightTest);
 
@@ -19,7 +18,7 @@ TEST_SETUP(weightTest)
 // run after each test
 TEST_TEAR_DOWN(weightTest)
 {
-    weight_delete(weight1);
+    weight_free(weight1);
 }
 
 /*

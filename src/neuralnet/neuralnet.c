@@ -30,9 +30,16 @@ NeuralNet *neuralnet_get(int inputNumber, List *weights)
 /*double *weightedSum()
 {
 
-}
+}*/
 
-double *neuralnet_compute(double *input, NeuralNet neuralNet)
+/*double *neuralnet_compute(double *input, NeuralNet neuralNet)
 {
 
 }*/
+
+void neuralnet_free(NeuralNet *neuralnet)
+{
+    list_removeAll(&neuralnet->weights, weight_freeVoidPointer);
+    free(neuralnet->weights);
+    free(neuralnet);
+}

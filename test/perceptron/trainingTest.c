@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "../unity/unity_fixture.h"
 #include "../../src/perceptron/training.h"
-#include "../../src/perceptron/training.c"
 
 TEST_GROUP(trainingTest);
 

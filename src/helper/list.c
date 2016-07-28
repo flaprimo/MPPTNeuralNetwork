@@ -17,21 +17,6 @@ void list_addFirst(List **l, void *info)
 }
 
 /**
- * Remove first element of the list.
- * @param l list where the first element should be removed
- */
-void list_removeFirst(List **l)
-{
-    if (*l) {
-        List *tmp = *l;
-        *l = (*l)->next;
-
-        free(tmp->info);
-        free(tmp);
-    }
-}
-
-/**
  * Given a list and an index, it returns the value at the position given, NULL otherwhise.
  * @param l list where to find the element
  * @param index of the element to be found
@@ -49,4 +34,37 @@ void *list_get(List *l, int index)
     }
 
     return result;
+}
+
+/**
+ * Given an list, an index and a destructor function for l->info, it remove the corresponding element of the list.
+ * @param l list where the first element should be removed
+ */
+void list_remove(List **l, int index, void (*freeInfo)(void *))
+{
+    if (*l) {
+        if (index == 0) {
+            List *tmp = *l;
+            *l = (*l)->next;
+
+            freeInfo(tmp->info);
+            free(tmp);
+        }
+        else {
+            list_remove(&(*l)->next, --index, freeInfo);
+        }
+    }
+}
+
+/**
+ * Given an list and a destructor function for l->info, it remove every element of the list.
+ * @param l
+ * @param freeInfo
+ */
+void list_removeAll(List **l, void (*freeInfo)(void *))
+{
+    if (*l) {
+        list_remove(l, 0, freeInfo);
+        list_removeAll(l, freeInfo);
+    }
 }
