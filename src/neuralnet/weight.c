@@ -22,6 +22,10 @@ Weight *weight_get(int rowNumber, int columnNumber)
     return weight;
 }
 
+/**
+ * Frees Weight struct.
+ * @param weight
+ */
 void weight_free(Weight *weight)
 {
     for (int i = 0; i < weight->rowNumber; i++)
@@ -31,6 +35,10 @@ void weight_free(Weight *weight)
     free(weight);
 }
 
+/**
+ * Frees Weight struct passed as a void pointer. Use if weight are used in a list.
+ * @param weightVoidPointer
+ */
 void weight_freeVoidPointer(void *weightVoidPointer)
 {
     if (weightVoidPointer != NULL)

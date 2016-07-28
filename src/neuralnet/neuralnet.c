@@ -37,6 +37,10 @@ NeuralNet *neuralnet_get(int inputNumber, List *weights)
 
 }*/
 
+/**
+ * Frees NeuralNet struct.
+ * @param neuralnet
+ */
 void neuralnet_free(NeuralNet *neuralnet)
 {
     list_removeAll(&neuralnet->weights, weight_freeVoidPointer);
