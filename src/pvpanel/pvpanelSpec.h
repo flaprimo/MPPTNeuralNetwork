@@ -5,7 +5,7 @@
 #ifndef MPPTNEURALNETWORK_PVPANELSPEC_H
 #define MPPTNEURALNETWORK_PVPANELSPEC_H
 
-typedef struct pvPanelSpec {
+typedef struct pvPanelSpec_t {
     long double q;
     long double k;
 
@@ -31,9 +31,9 @@ typedef struct pvPanelSpec {
     long double eg;
     long double io;
     double irr;
-} pvPanelSpec;
+} PvPanelSpec;
 
-pvPanelSpec *pvpanelSpec_get();
-void pvpanelSpec_print(pvPanelSpec *pvpanelSpec);
+PvPanelSpec *pvpanelSpec_get();
+void pvpanelSpec_print(PvPanelSpec *pvpanelSpec);
 
 #endif //MPPTNEURALNETWORK_PVPANELSPEC_H

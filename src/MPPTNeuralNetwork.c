@@ -76,7 +76,7 @@ int main()
     trainData2->learningConstant = 0.2;
 
     // create training data set
-    list *trainingSet = NULL;
+    List *trainingSet = NULL;
     list_addFirst(&trainingSet, trainData1);
     list_addFirst(&trainingSet, trainData2);
 
@@ -99,12 +99,12 @@ int main()
     /*
      * get pvpanelSpec and print it
      */
-    pvPanelSpec *pvpanelSpec = pvpanelSpec_get();
+    PvPanelSpec *pvpanelSpec = pvpanelSpec_get();
     pvpanelSpec_print(pvpanelSpec);
 
     /*
      * get pvpanel and print it
      */
-    pvPanel *pvpanel = pvpanel_get(1100, pvpanelSpec);
+    PvPanel *pvpanel = pvpanel_get(1100, pvpanelSpec);
     pvpanel_print(pvpanel);
 }

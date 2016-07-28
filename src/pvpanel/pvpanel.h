@@ -7,14 +7,14 @@
 
 #include "pvpanelSpec.h"
 
-typedef struct pvPanel {
-    struct pvPanelSpec *pvpanelSpec;
+typedef struct pvPanel_t {
+    PvPanelSpec *pvpanelSpec;
 
-    long double vCurr;
-    long double iCurr;
-} pvPanel;
+    double vCurr;
+    double iCurr;
+} PvPanel;
 
-pvPanel *pvpanel_get(long double vCurr, pvPanelSpec *pvpanelSpec);
-void pvpanel_print(pvPanel *pvpanel);
+PvPanel *pvpanel_get(double vCurr, PvPanelSpec *pvpanelSpec);
+void pvpanel_print(PvPanel *pvpanel);
 
 #endif //MPPTNEURALNETWORK_PVPANEL_H

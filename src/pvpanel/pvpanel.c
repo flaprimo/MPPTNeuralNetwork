@@ -11,9 +11,9 @@ const int NEWTON_RAPHSON_ITERATIONS = 50;
  * @param vCurr
  * @return
  */
-long double pvpanel_newtonRaphson(pvPanelSpec *pvpanelSpec, long double vCurr)
+double pvpanel_newtonRaphson(PvPanelSpec *pvpanelSpec, double vCurr)
 {
-    long double iCurr = 0;
+    double iCurr = 0;
 
     for (int i = 0; i < NEWTON_RAPHSON_ITERATIONS; i++) {
 
@@ -24,7 +24,7 @@ long double pvpanel_newtonRaphson(pvPanelSpec *pvpanelSpec, long double vCurr)
                 expl(pvpanelSpec->q / pvpanelSpec->k / pvpanelSpec->t / pvpanelSpec->n / pvpanelSpec->nS * (vCurr + iCurr * pvpanelSpec->rs)) -
                 pvpanelSpec->rs / pvpanelSpec->rp);
 
-        iCurr = iCurr - f / dF;
+        iCurr = (double) (iCurr - f / dF);
     }
 
     return iCurr;
@@ -36,9 +36,9 @@ long double pvpanel_newtonRaphson(pvPanelSpec *pvpanelSpec, long double vCurr)
  * @param pvpanelSpec
  * @return
  */
-pvPanel *pvpanel_get(long double vCurr, pvPanelSpec *pvpanelSpec)
+PvPanel *pvpanel_get(double vCurr, PvPanelSpec *pvpanelSpec)
 {
-    pvPanel *pvpanel = malloc(sizeof(pvPanel));
+    PvPanel *pvpanel = malloc(sizeof(PvPanel));
 
     pvpanel->pvpanelSpec = pvpanelSpec;
     pvpanel->vCurr = vCurr;
@@ -51,13 +51,13 @@ pvPanel *pvpanel_get(long double vCurr, pvPanelSpec *pvpanelSpec)
  * Prints the photovoltaic panel.
  * @param pvpanel
  */
-void pvpanel_print(pvPanel *pvpanel)
+void pvpanel_print(PvPanel *pvpanel)
 {
-    printf("pvPanel {\n");
+    printf("PvPanel {\n");
 
     printf("  pvpanelSpec: [...]\n");
-    printf("  vCurr: %Le\n", pvpanel->vCurr);
-    printf("  iCurr: %Le\n", pvpanel->iCurr);
+    printf("  vCurr: %f\n", pvpanel->vCurr);
+    printf("  iCurr: %f\n", pvpanel->iCurr);
 
     printf("}\n\n");
 }

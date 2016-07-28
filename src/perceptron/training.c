@@ -37,7 +37,7 @@ void training_trainPerceptronForced(struct perceptron *p, training *trainingData
  * @param p
  * @param trainingSet
  */
-void training_trainPerceptronSet(struct perceptron *p, list *trainingSet)
+void training_trainPerceptronSet(struct perceptron *p, List *trainingSet)
 {
     if (trainingSet) {
         training_trainPerceptron(p, trainingSet->info);

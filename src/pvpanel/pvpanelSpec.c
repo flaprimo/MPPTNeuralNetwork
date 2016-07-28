@@ -17,9 +17,9 @@ double pvpanelSpec_convertCelsiusToKelvin(double temperature_celsius)
  * Returns specifications for a default photovoltaic panel.
  * @return
  */
-pvPanelSpec *pvpanelSpec_get()
+PvPanelSpec *pvpanelSpec_get()
 {
-    pvPanelSpec *pvpanelSpec = malloc(sizeof(pvPanelSpec));
+    PvPanelSpec *pvpanelSpec = malloc(sizeof(PvPanelSpec));
 
     pvpanelSpec->q = 1.602E-19;
     pvpanelSpec->k = 1.3806503E-23;
@@ -55,9 +55,9 @@ pvPanelSpec *pvpanelSpec_get()
  * Prints the photovoltaic panel specifications.
  * @param pvpanelSpec
  */
-void pvpanelSpec_print(pvPanelSpec *pvpanelSpec)
+void pvpanelSpec_print(PvPanelSpec *pvpanelSpec)
 {
-    printf("pvPanelSpec {\n");
+    printf("PvPanelSpec {\n");
 
     printf("  q: %Le\n", pvpanelSpec->q);
     printf("  k: %Le\n\n", pvpanelSpec->k);

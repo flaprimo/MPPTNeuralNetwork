@@ -1,15 +1,14 @@
 #ifndef MPPTNEURALNETWORK_LIST_H
 #define MPPTNEURALNETWORK_LIST_H
 
-typedef struct list {
+typedef struct list_t {
     void *info;
 
-    struct list *next;
-} list;
+    struct list_t *next;
+} List;
 
-void list_addFirst(list **l, void *info);
-void list_removeFirst(list **l);
-void *list_get(list *l, int index);
-void list_map(list **l, void *(*func)(void *));
+void list_addFirst(List **l, void *info);
+void list_removeFirst(List **l);
+void *list_get(List *l, int index);
 
 #endif //MPPTNEURALNETWORK_LIST_H

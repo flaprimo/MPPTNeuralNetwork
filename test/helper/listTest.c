@@ -8,7 +8,7 @@ TEST_GROUP(listTest);
 /*
  * FIXTURES
  */
-list *l1;
+List *l1;
 
 // run before each test
 TEST_SETUP(listTest)

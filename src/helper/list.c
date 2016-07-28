@@ -6,9 +6,9 @@
  * @param l list where should be added the new element
  * @param info the new element
  */
-void list_addFirst(list **l, void *info)
+void list_addFirst(List **l, void *info)
 {
-    list *tmp = malloc(sizeof(list));
+    List *tmp = malloc(sizeof(List));
 
     tmp->info = info;
     tmp->next = *l;
@@ -20,10 +20,10 @@ void list_addFirst(list **l, void *info)
  * Remove first element of the list.
  * @param l list where the first element should be removed
  */
-void list_removeFirst(list **l)
+void list_removeFirst(List **l)
 {
     if (*l) {
-        list *tmp = *l;
+        List *tmp = *l;
         *l = (*l)->next;
 
         free(tmp->info);
@@ -37,7 +37,7 @@ void list_removeFirst(list **l)
  * @param index of the element to be found
  * @return
  */
-void *list_get(list *l, int index)
+void *list_get(List *l, int index)
 {
     void *result = NULL;
 
