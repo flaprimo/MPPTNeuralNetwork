@@ -4,6 +4,7 @@
 #include "perceptron/perceptron.h"
 #include "pvpanel/pvpanelSpec.h"
 #include "pvpanel/pvpanel.h"
+#include "neuralnet/weight.h"
 
 int main()
 {
@@ -103,8 +104,21 @@ int main()
     pvpanelSpec_print(pvpanelSpec);
 
     /*
-     * get pvpanel and print it
+     * Create weights and print them
      */
-    PvPanel *pvpanel = pvpanel_get(1100, pvpanelSpec);
-    pvpanel_print(pvpanel);
+
+    // create weight1 Weight
+    Weight *weight1 = weight_get(3, 5);
+
+    // print weight1
+    weight_print(weight1);
+
+    // initialize weight1Matrix array
+    for (int i = 0; i < weight1->rowNumber; i++)
+        for (int j = 0; j < weight1->columnNumber; j++)
+            weight1->matrix[i][j] = 1;
+
+    // print weight1
+    weight_print(weight1);
+
 }

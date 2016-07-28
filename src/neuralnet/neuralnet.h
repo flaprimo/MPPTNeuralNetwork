@@ -5,15 +5,13 @@
 #ifndef MPPTNEURALNETWORK_NEURALNET_H
 #define MPPTNEURALNETWORK_NEURALNET_H
 
-typedef struct neuralNet {
-    double *input;
+#include "../helper/list.h"
 
-    double *firstWeights;
-    double *secondWeights;
+typedef struct neuralNet_t {
+    int inputNumber;
+    List *weights;
+} NeuralNet;
 
-    double output;
-} neuralNet;
-
-neuralNet *neuralnet_get();
+NeuralNet *neuralnet_get(int inputNumber, List *weights);
 
 #endif //MPPTNEURALNETWORK_NEURALNET_H

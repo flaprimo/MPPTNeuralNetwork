@@ -2,9 +2,6 @@
 #include <math.h>
 #include "neuralnet.h"
 
-const int INPUT_NUMBER = 3;
-const int PERCEPTRON_NUMBER = 25;
-
 /**
  * Sigmoid function. Used as the activation function.
  * @param x
@@ -16,17 +13,26 @@ long double neuralnet_sigmoid(long double x)
 }
 
 /**
- * Create a neural network.
+ * Given the number of inputs and an ordered list containing weights.
+ * Weights are defined as bidimensional arrays.
  * @return
  */
-neuralNet *neuralnet_get()
+NeuralNet *neuralnet_get(int inputNumber, List *weights)
 {
-    neuralNet *neuralnet = malloc(sizeof(neuralNet));
+    NeuralNet *neuralNet = malloc(sizeof(NeuralNet));
 
-    neuralnet->input = malloc(sizeof(double) * INPUT_NUMBER);
-    neuralnet->firstWeights = malloc(sizeof(double) * PERCEPTRON_NUMBER * INPUT_NUMBER);
-    neuralnet->secondWeights = malloc(sizeof(double) * PERCEPTRON_NUMBER);
-    neuralnet->output = 0;
+    neuralNet->inputNumber = inputNumber;
+    neuralNet->weights = weights;
 
-    return neuralnet;
+    return neuralNet;
 }
+
+/*double *weightedSum()
+{
+
+}
+
+double *neuralnet_compute(double *input, NeuralNet neuralNet)
+{
+
+}*/
