@@ -2,7 +2,7 @@
 #include "list.h"
 
 /**
- * Add first element to the list.
+ * Given a list and an element, the element is added as the first of the list.
  * @param l list where should be added the new element
  * @param info the new element
  */
@@ -14,6 +14,28 @@ void list_addFirst(List **l, void *info)
     tmp->next = *l;
 
     *l = tmp;
+}
+
+/**
+ * Given a list and an element, the element is added at the end of the list.
+ * @param l
+ * @param info
+ */
+void list_addLast(List **l, void *info)
+{
+    List *tmp = malloc(sizeof(List));
+
+    tmp->info = info;
+    tmp->next = NULL;
+
+    if (*l == NULL)
+        *l = tmp;
+    else {
+        List *tmp2 = *l;
+        while (tmp2->next != NULL)
+            tmp2 = tmp2->next;
+        tmp2->next = tmp;
+    }
 }
 
 /**

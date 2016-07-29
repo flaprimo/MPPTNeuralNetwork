@@ -44,6 +44,15 @@ TEST_TEAR_DOWN(listTest)
 /*
  * UNIT TESTS
  */
+TEST(listTest, list_addLastTest)
+{
+    int *i3 = malloc(sizeof(int));
+    *i3 = 12;
+    list_addLast(&l1, i3);
+
+    TEST_ASSERT_EQUAL(12, *(int *)list_get(l1, 2));
+}
+
 TEST(listTest, list_getTest)
 {
     TEST_ASSERT_EQUAL(11, *(int *)list_get(l1, 0));
@@ -69,6 +78,7 @@ TEST(listTest, list_removeTest)
  */
 TEST_GROUP_RUNNER(listTest)
 {
+    RUN_TEST_CASE(listTest, list_addLastTest);
     RUN_TEST_CASE(listTest, list_getTest);
     RUN_TEST_CASE(listTest, list_removeTest);
 }
