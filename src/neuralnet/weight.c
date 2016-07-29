@@ -24,10 +24,8 @@ Weight *weight_get(int rowLength, int columnLength)
 
 /**
  * Given an input array and a Weight struct, it returns the weighted sum beetween input and weights.
- * Important: input array length should be equal to rowLength of the Weight struct.
- * @param input
- * @param inputLength
- * @param weight
+ * @param input array length is equal to rowLength of the Weight struct.
+ * @param weight array with the length equal to columnLength of the Weight struct.
  * @return
  */
 double *weight_weightedSum(double *input, Weight* weight)

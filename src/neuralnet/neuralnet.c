@@ -7,30 +7,49 @@
  * @param x
  * @return
  */
-long double neuralnet_sigmoid(long double x)
+double neuralnet_sigmoid(double x)
 {
-    return 1 / (1 + expl(-x));
+    return 1 / (1 + exp(-x));
 }
 
 /**
- * Given the number of inputs and an ordered list containing weights.
+ * Given the number of inputs, it returns a NeuralNet struct.
  * Weights are defined as bidimensional arrays.
+ * @param inputLength
  * @return
  */
-NeuralNet *neuralnet_get(int inputLength, List *weights)
+NeuralNet *neuralnet_get(int inputLength)
 {
     NeuralNet *neuralNet = malloc(sizeof(NeuralNet));
 
     neuralNet->inputLength = inputLength;
-    neuralNet->weights = weights;
 
     return neuralNet;
 }
 
-/*double *neuralnet_compute(double *input, NeuralNet neuralNet)
+/**
+ * Given a NeuralNet struct and an input, it returns the result of the neuralnet computation.
+ * @param input
+ * @param neuralNet
+ * @return
+ */
+double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
+    List *currentWeightList = neuralNet->weights;
 
-}*/
+    while (currentWeightList) {
+        // compute the weighted sum
+        input = weight_weightedSum(input, (Weight *) currentWeightList->info); // the new input is the output
+
+        // apply activation function
+        for (int i = 0; i < ((Weight *) currentWeightList->info)->columnLength; i++)
+            input[i] = neuralnet_sigmoid(input[i]);
+
+        currentWeightList = currentWeightList->next;
+    }
+
+    return input;
+}
 
 /**
  * Frees NeuralNet struct.

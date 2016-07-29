@@ -13,7 +13,8 @@ typedef struct neuralNet_t {
     List *weights;
 } NeuralNet;
 
-NeuralNet *neuralnet_get(int inputLength, List *weights);
+NeuralNet *neuralnet_get(int inputLength);
+double *neuralnet_compute(double *input, NeuralNet *neuralNet);
 void neuralnet_free(NeuralNet *neuralnet);
 
 #endif //MPPTNEURALNETWORK_NEURALNET_H
