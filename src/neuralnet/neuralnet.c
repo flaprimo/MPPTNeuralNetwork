@@ -17,20 +17,15 @@ long double neuralnet_sigmoid(long double x)
  * Weights are defined as bidimensional arrays.
  * @return
  */
-NeuralNet *neuralnet_get(int inputNumber, List *weights)
+NeuralNet *neuralnet_get(int inputLength, List *weights)
 {
     NeuralNet *neuralNet = malloc(sizeof(NeuralNet));
 
-    neuralNet->inputNumber = inputNumber;
+    neuralNet->inputLength = inputLength;
     neuralNet->weights = weights;
 
     return neuralNet;
 }
-
-/*double *weightedSum()
-{
-
-}*/
 
 /*double *neuralnet_compute(double *input, NeuralNet neuralNet)
 {

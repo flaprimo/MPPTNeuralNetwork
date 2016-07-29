@@ -9,11 +9,11 @@
 #include "weight.h"
 
 typedef struct neuralNet_t {
-    int inputNumber;
+    int inputLength;
     List *weights;
 } NeuralNet;
 
-NeuralNet *neuralnet_get(int inputNumber, List *weights);
+NeuralNet *neuralnet_get(int inputLength, List *weights);
 void neuralnet_free(NeuralNet *neuralnet);
 
 #endif //MPPTNEURALNETWORK_NEURALNET_H
