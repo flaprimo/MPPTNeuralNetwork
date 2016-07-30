@@ -24,12 +24,10 @@ TEST_SETUP(neuralnetTest)
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++)
             weight1->matrix[i][j] = 1;
-    weight_print(weight1);
 
     for (int i = 0; i < weight2->rowLength; i++)
         for (int j = 0; j < weight2->columnLength; j++)
             weight2->matrix[i][j] = 1;
-    weight_print(weight2);
 
     // create and initialize neuralNet1
     neuralNet1 = neuralnet_get(inputLength);
@@ -45,7 +43,7 @@ TEST_SETUP(neuralnetTest)
     // compute the neural net
     double *output = neuralnet_compute(input, neuralNet1);
 
-    printf("%f", output[0]);
+    TEST_ASSERT_EQUAL(output[0], 0.721633);
 
     free(input);
 }

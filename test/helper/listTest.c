@@ -7,6 +7,10 @@ TEST_GROUP(listTest);
 /*
  * HELPER FUNCTIONS
  */
+/**
+ * Frees an (void *) that is an (int *)
+ * @param integerVoidPointer
+ */
 void freeIntPointer(void *integerVoidPointer)
 {
     if (integerVoidPointer != NULL)
@@ -21,9 +25,6 @@ List *l1;
 // run before each test
 TEST_SETUP(listTest)
 {
-    //create list
-    l1 = NULL;
-
     // create and add 1st element
     int *i1 = malloc(sizeof(int));
     *i1 = 10;
