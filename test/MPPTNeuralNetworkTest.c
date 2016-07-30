@@ -1,7 +1,4 @@
 #include "unity/unity_fixture.h"
-#include "helper/listTest.c"
-#include "neuralnet/weightTest.c"
-#include "neuralnet/neuralnetTest.c"
 
 static void RunAllTests(void)
 {
@@ -11,6 +8,10 @@ static void RunAllTests(void)
     // neuralnet
     RUN_TEST_GROUP(weightTest);
     RUN_TEST_GROUP(neuralnetTest);
+
+    // pvpanel
+    RUN_TEST_GROUP(pvpanelSpecTest);
+    RUN_TEST_GROUP(pvpanelTest);
 }
 
 int main(int argc, const char *argv[])
