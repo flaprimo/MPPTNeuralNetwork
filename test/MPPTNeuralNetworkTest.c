@@ -12,6 +12,9 @@ static void RunAllTests(void)
     // pvpanel
     RUN_TEST_GROUP(pvpanelSpecTest);
     RUN_TEST_GROUP(pvpanelTest);
+
+    // pvpanelnn
+    RUN_TEST_GROUP(pvpanelNNTest);
 }
 
 int main(int argc, const char *argv[])

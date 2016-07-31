@@ -3,11 +3,11 @@
 #include "pvpanel/pvpanelSpec.h"
 #include "pvpanel/pvpanel.h"
 #include "neuralnet/weight.h"
+#include "pvpanelnn/pvpanelNN.h"
 
 const double VCURR = 1100;
-const int INPUT_LENGTH = 3;
+
 const int HIDDENLAYER_WEIGHT_LENGTH = 25;
-const int OUTPUT = 1;
 
 int main()
 {
@@ -23,7 +23,7 @@ int main()
     /*
      * Create and initialize weights for the Neural network
      */
-    Weight *hiddenLayer = weight_get(INPUT_LENGTH, HIDDENLAYER_WEIGHT_LENGTH);
+    Weight *hiddenLayer = weight_get(3, HIDDENLAYER_WEIGHT_LENGTH);
 
     hiddenLayer->matrix[0][0] = -4.16238761863828;
     hiddenLayer->matrix[0][1] = -4.89647405099715;
@@ -103,4 +103,32 @@ int main()
     hiddenLayer->matrix[2][23] = 0.210976360825200;
     hiddenLayer->matrix[2][24] = -0.533000589798058;
 
+    /*
+     * Get pvpanelNN
+     */
+
+    /*
+     * Create input
+     */
+    PvPanelNN *pvpanelNN = pvpanelNN_get();
+
+    double *input = malloc(sizeof(double) * pvpanelNN->inputLength);
+    input[0] = 977.581807425645;
+    input[1] = 391.935856999970;
+    input[2] = 342.475382369526;
+
+    double *inputN = pvpanelNN_normalizeInput(pvpanelNN, input);
+    printf("%f\n", inputN[0]);
+
+    free(input);
+
+    /*
+     * Create Output
+     */
+    double *output = malloc(sizeof(double) * pvpanelNN->outputLength);
+    output[0] = -0.3734;
+
+    double *outputN = pvpanelNN_normalizeOutput(pvpanelNN, input);
+
+    free(output);
 }
