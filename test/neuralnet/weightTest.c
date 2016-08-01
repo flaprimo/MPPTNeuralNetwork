@@ -29,38 +29,38 @@ TEST(weightTest, weight_getTest)
     // check array default initialization
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++)
-            TEST_ASSERT_EQUAL(weight1->matrix[i][j], 0);
+            TEST_ASSERT_EQUAL(weight1->weightArray[i][j], 0);
 
     // check array initialization
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++) {
-            weight1->matrix[i][j] = 1;
-            TEST_ASSERT_EQUAL(weight1->matrix[i][j], 1);
+            weight1->weightArray[i][j] = 1;
+            TEST_ASSERT_EQUAL(weight1->weightArray[i][j], 1);
         }
 
     // check array single
-    weight1->matrix[2][3] = 2.4;
-    weight1->matrix[0][1] = 5.01;
+    weight1->weightArray[2][3] = 2.4;
+    weight1->weightArray[0][1] = 5.01;
 
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++) {
             if (i == 2 && j == 3)
-                TEST_ASSERT_EQUAL(weight1->matrix[i][j], 2.4);
+                TEST_ASSERT_EQUAL(weight1->weightArray[i][j], 2.4);
             else if (i == 0 && j == 1)
-                TEST_ASSERT_EQUAL(weight1->matrix[i][j], 5.01);
+                TEST_ASSERT_EQUAL(weight1->weightArray[i][j], 5.01);
             else
-                TEST_ASSERT_EQUAL(weight1->matrix[i][j], 1);
+                TEST_ASSERT_EQUAL(weight1->weightArray[i][j], 1);
         }
 }
 
 TEST(weightTest, weight_weightedSumTest)
 {
-    // initialize matrix
+    // initialize weightArray
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++)
-            weight1->matrix[i][j] = 1*(i+j);
+            weight1->weightArray[i][j] = 1*(i+j);
 
-    // create and initialize input matrix
+    // create and initialize input weightArray
     double *input = malloc(sizeof(double) * weight1->rowLength);
     input[0] = 1;
     input[1] = 2;

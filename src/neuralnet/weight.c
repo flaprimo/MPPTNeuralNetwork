@@ -9,15 +9,19 @@
  * @param matrix
  * @return
  */
-Weight *weight_get(int rowLength, int columnLength)
+Weight *weight_get(int rowLength, int columnLength, TransferFunc_type transferFunction)
 {
     Weight *weight = malloc(sizeof(Weight));
 
     weight->rowLength = rowLength;
     weight->columnLength = columnLength;
-    weight->matrix = malloc(sizeof(double *) * rowLength);
+    weight->weightArray = malloc(sizeof(double *) * rowLength);
     for (int i = 0; i < rowLength; i++)
-        weight->matrix[i] = calloc((unsigned int) columnLength, sizeof(double)); // unsigned
+        weight->weightArray[i] = calloc((unsigned int) columnLength, sizeof(double)); // unsigned
+
+
+    weight->bias = calloc((unsigned int) columnLength, sizeof(double));
+    weight->transferFunction = transferFunc_get(transferFunction);
 
     return weight;
 }
@@ -34,7 +38,7 @@ double *weight_weightedSum(double *input, Weight* weight)
 
     for (int i = 0; i < weight->rowLength; i++)
         for (int j = 0; j < weight->columnLength; j++)
-            output[j] += input[i] * weight->matrix[i][j];
+            output[j] += input[i] * weight->weightArray[i][j];
 
     return output;
 }
@@ -46,9 +50,10 @@ double *weight_weightedSum(double *input, Weight* weight)
 void weight_free(Weight *weight)
 {
     for (int i = 0; i < weight->rowLength; i++)
-        free(weight->matrix[i]);
+        free(weight->weightArray[i]);
 
-    free(weight->matrix);
+    free(weight->weightArray);
+    free(weight->bias);
     free(weight);
 }
 
@@ -73,14 +78,19 @@ void weight_print(Weight *weight)
     printf("  rowLength: %d\n", weight->rowLength);
     printf("  columnLength: %d\n", weight->columnLength);
 
-    printf("  matrix: {\n");
+    printf("  weightArray: {\n");
     for (int i = 0; i < weight->rowLength; i++) {
         printf("    | ");
         for (int j = 0; j < weight->columnLength; j++)
-            printf("%f ", weight->matrix[i][j]);
+            printf("%f ", weight->weightArray[i][j]);
         printf("|\n");
     }
     printf("  }\n");
+
+    printf("  bias: {\n    | ");
+    for (int i = 0; i < weight->columnLength; i++)
+        printf("%f ", weight->bias[i]);
+    printf("|\n  }\n");
 
     printf("}\n\n");
 }

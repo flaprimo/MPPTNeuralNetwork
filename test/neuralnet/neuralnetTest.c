@@ -23,11 +23,11 @@ TEST_SETUP(neuralnetTest)
     // initialize weight1 and weight2
     for (int i = 0; i < weight1->rowLength; i++)
         for (int j = 0; j < weight1->columnLength; j++)
-            weight1->matrix[i][j] = 1;
+            weight1->weightArray[i][j] = 1;
 
     for (int i = 0; i < weight2->rowLength; i++)
         for (int j = 0; j < weight2->columnLength; j++)
-            weight2->matrix[i][j] = 1;
+            weight2->weightArray[i][j] = 1;
 
     // create and initialize neuralNet1
     neuralNet1 = neuralnet_get(inputLength);

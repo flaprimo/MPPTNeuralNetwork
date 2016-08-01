@@ -1,16 +1,7 @@
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 #include "neuralnet.h"
-
-/**
- * Sigmoid function. Used as the activation function.
- * @param x
- * @return
- */
-double neuralnet_sigmoid(double x)
-{
-    return 1 / (1 + exp(-x));
-}
 
 /**
  * Given the number of inputs, it returns a NeuralNet struct.
@@ -35,17 +26,21 @@ NeuralNet *neuralnet_get(int inputLength)
  */
 double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
-    List *currentWeightList = neuralNet->weights;
+    List *weightList = neuralNet->weights;
 
-    while (currentWeightList) {
+    while (weightList) {
+        Weight *currentWeight = (Weight *) weightList->info;
+
         // compute the weighted sum
-        input = weight_weightedSum(input, (Weight *) currentWeightList->info); // the new input is the output
+        input = weight_weightedSum(input, currentWeight); // the new input is the output
 
         // apply activation function
-        for (int i = 0; i < ((Weight *) currentWeightList->info)->columnLength; i++)
-            input[i] = neuralnet_sigmoid(input[i]);
+        for (int i = 0; i < currentWeight->columnLength; i++)
+            input[i] = currentWeight->transferFunction(input[i] + currentWeight->bias[i]);
 
-        currentWeightList = currentWeightList->next;
+
+
+        weightList = weightList->next;
     }
 
     return input;
