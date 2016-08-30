@@ -1,6 +1,6 @@
 #include "../unity/unity_fixture.h"
 #include "../../src/neuralnet/neuralnet.h"
-#include "../../src/neuralnet/weight.h"
+#include "../../src/neuralnet/layer.h"
 
 TEST_GROUP(neuralnetTest);
 
@@ -8,8 +8,8 @@ TEST_GROUP(neuralnetTest);
  * FIXTURES
  */
 NeuralNet *neuralNet1;
-Weight *weight1;
-Weight *weight2;
+Layer *weight1;
+Layer *weight2;
 
 // run before each test
 TEST_SETUP(neuralnetTest)
@@ -17,8 +17,8 @@ TEST_SETUP(neuralnetTest)
     int inputLength = 3;
 
     // create weight1 and weight2
-    weight1 = weight_get(inputLength, 5);
-    weight2 = weight_get(1, 1);
+    weight1 = layer_get(inputLength, 5);
+    weight2 = layer_get(1, 1);
 
     // initialize weight1 and weight2
     for (int i = 0; i < weight1->rowLength; i++)
@@ -31,8 +31,8 @@ TEST_SETUP(neuralnetTest)
 
     // create and initialize neuralNet1
     neuralNet1 = neuralnet_get(inputLength);
-    list_addLast(&neuralNet1->weights, weight1);
-    list_addLast(&neuralNet1->weights, weight2);
+    list_addLast(&neuralNet1->layerList, weight1);
+    list_addLast(&neuralNet1->layerList, weight2);
 
     // create and initialize input
     double *input = malloc(sizeof(double) * inputLength);

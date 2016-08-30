@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pvpanelnn/pvpanelNN.h"
+#include "helper/chronograph.h"
 
 int main()
 {
+    Chronograph *chronograph = chronograph_get();
+
     PvPanelNN *pvpanelNN = pvpanelNN_get();
 
     double *input = malloc(sizeof(double) * pvpanelNN->inputLength);
@@ -14,4 +17,7 @@ int main()
     double *output = pvpanelNN_compute(pvpanelNN, input);
 
     printf("\nFINAL OUTPUT: %f", output[0]);
+
+    printf("\nTOTAL TIME: %f", chronograph_getDelta(chronograph));
+    chronograph_free(chronograph);
 }

@@ -1,24 +1,24 @@
 #include "../unity/unity_fixture.h"
-#include "../../src/neuralnet/weight.h"
+#include "../../src/neuralnet/layer.h"
 
 TEST_GROUP(weightTest);
 
 /*
  * FIXTURES
  */
-Weight *weight1;
+Layer *weight1;
 
 // run before each test
 TEST_SETUP(weightTest)
 {
     //create weight
-    weight1 = weight_get(3, 5);
+    weight1 = layer_get(3, 5);
 }
 
 // run after each test
 TEST_TEAR_DOWN(weightTest)
 {
-    weight_free(weight1);
+    layer_free(weight1);
 }
 
 /*
@@ -67,7 +67,7 @@ TEST(weightTest, weight_weightedSumTest)
     input[2] = 3;
 
     // compute weighted sum
-    double *output = weight_weightedSum(input, weight1);
+    double *output = layer_weightedSum(input, weight1);
 
     // check output
     TEST_ASSERT_EQUAL(output[0], 8);

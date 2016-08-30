@@ -6,11 +6,11 @@
 #define MPPTNEURALNETWORK_NEURALNET_H
 
 #include "../helper/list.h"
-#include "weight.h"
+#include "layer.h"
 
 typedef struct neuralNet_t {
     int inputLength;
-    List *weights;
+    List *layerList;
 } NeuralNet;
 
 NeuralNet *neuralnet_get(int inputLength);

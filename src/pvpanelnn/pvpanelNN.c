@@ -1,19 +1,18 @@
 #include <stdlib.h>
-#include <stdio.h>
 #include "pvpanelNN.h"
 #include "../helper/list.h"
-#include "../neuralnet/weight.h"
+#include "../neuralnet/layer.h"
 
 const int INPUT_LENGTH = 3;
-const int OUTPUT_LENGTH = 1;
 const int LAYER1_LENGTH = 25;
+const int OUTPUT_LENGTH = 1;
 
-List *pvpanelNN_getWeight()
+List *pvpanelNN_getLayerList()
 {
-    List *weightList;
+    List *layerList;
 
     // hidden layer
-    Weight *layer1 = weight_get(INPUT_LENGTH, LAYER1_LENGTH, SIGMOID);
+    Layer *layer1 = layer_get(INPUT_LENGTH, LAYER1_LENGTH, SIGMOID);
 
     layer1->weightArray[0][0] = -4.16238761863828;
     layer1->weightArray[0][1] = -4.89647405099715;
@@ -119,10 +118,10 @@ List *pvpanelNN_getWeight()
     layer1->bias[23] = -1.69093052994134;
     layer1->bias[24] = 0.868818957310083;
 
-    list_addLast(&weightList, layer1);
+    list_addLast(&layerList, layer1);
 
     // output layer
-    Weight *layer2 = weight_get(LAYER1_LENGTH, OUTPUT_LENGTH, LINEAR);
+    Layer *layer2 = layer_get(LAYER1_LENGTH, OUTPUT_LENGTH, LINEAR);
 
     layer2->weightArray[0][0] = 1.92609063320856;
     layer2->weightArray[1][0] = 7.35287569459599;
@@ -152,9 +151,9 @@ List *pvpanelNN_getWeight()
 
     layer2->bias[0] = -0.404523437283139;
 
-    list_addLast(&weightList, layer2);
+    list_addLast(&layerList, layer2);
 
-    return weightList;
+    return layerList;
 }
 
 PvPanelNN *pvpanelNN_get()
@@ -185,7 +184,7 @@ PvPanelNN *pvpanelNN_get()
 
     // neuralNet
     pvpanelNN->neuralNet = neuralnet_get(INPUT_LENGTH);
-    pvpanelNN->neuralNet->weights = pvpanelNN_getWeight();
+    pvpanelNN->neuralNet->layerList = pvpanelNN_getLayerList();
 
     // pvpanel
     pvpanelNN->pvpanel = pvpanel_get(1100, pvpanelSpec_get());
@@ -193,6 +192,12 @@ PvPanelNN *pvpanelNN_get()
     return pvpanelNN;
 }
 
+/**
+ * Given a pvpanelNN object and an input array, it computes the neural networks normalizing inputs and outputs.
+ * @param pvpanelNN
+ * @param input
+ * @return
+ */
 double *pvpanelNN_compute(PvPanelNN *pvpanelNN, double *input)
 {
     double *normalizedInput = pvpanelNN_normalizeInput(pvpanelNN, input);
@@ -235,6 +240,10 @@ double *pvpanelNN_normalizeOutput(PvPanelNN *pvpanelNN, double *output)
     return normalizedOutput;
 }
 
+/**
+ * Frees pvpanelNN struct.
+ * @param pvpanelNN
+ */
 void pvpanelNN_free(PvPanelNN *pvpanelNN)
 {
     free(pvpanelNN->minInput);

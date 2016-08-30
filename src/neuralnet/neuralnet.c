@@ -1,11 +1,8 @@
 #include <stdlib.h>
-#include <math.h>
-#include <stdio.h>
 #include "neuralnet.h"
 
 /**
  * Given the number of inputs, it returns a NeuralNet struct.
- * Weights are defined as bidimensional arrays.
  * @param inputLength
  * @return
  */
@@ -26,21 +23,19 @@ NeuralNet *neuralnet_get(int inputLength)
  */
 double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
-    List *weightList = neuralNet->weights;
+    List *layerList = neuralNet->layerList;
 
-    while (weightList) {
-        Weight *currentWeight = (Weight *) weightList->info;
+    while (layerList) {
+        Layer *currentLayer = (Layer *) layerList->info;
 
         // compute the weighted sum
-        input = weight_weightedSum(input, currentWeight); // the new input is the output
+        input = layer_weightedSum(input, currentLayer); // the new input is the output
 
         // apply activation function
-        for (int i = 0; i < currentWeight->columnLength; i++)
-            input[i] = currentWeight->transferFunction(input[i] + currentWeight->bias[i]);
+        for (int i = 0; i < currentLayer->columnLength; i++)
+            input[i] = currentLayer->transferFunction(input[i] + currentLayer->bias[i]);
 
-
-
-        weightList = weightList->next;
+        layerList = layerList->next;
     }
 
     return input;
@@ -52,7 +47,7 @@ double *neuralnet_compute(double *input, NeuralNet *neuralNet)
  */
 void neuralnet_free(NeuralNet *neuralnet)
 {
-    list_removeAll(&neuralnet->weights, weight_freeVoidPointer);
-    free(neuralnet->weights);
+    list_removeAll(&neuralnet->layerList, layer_freeVoidPointer);
+    free(neuralnet->layerList);
     free(neuralnet);
 }
