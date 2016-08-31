@@ -24,20 +24,17 @@ NeuralNet *neuralnet_get(int inputLength)
 double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
     List *layerList = neuralNet->layerList;
+    double *currentOutput = input;
 
     while (layerList) {
         Layer *currentLayer = (Layer *) layerList->info;
 
-        // compute the weighted sum
-        input = layer_weightedSum(input, currentLayer); // the new input is the output
-
-        // apply the activation function
-        layer_activationFunction(input, currentLayer);
+        currentOutput = layer_compute(currentOutput, currentLayer);
 
         layerList = layerList->next;
     }
 
-    return input;
+    return currentOutput;
 }
 
 /**

@@ -55,6 +55,23 @@ void layer_activationFunction(double *output, Layer *layer)
 }
 
 /**
+ * Computes a layer with the weighted sum and activation function.
+ * @param input
+ * @param layer
+ * @return
+ */
+double *layer_compute(double *input, Layer *layer)
+{
+    // compute the weighted sum
+    double *output = layer_weightedSum(input, layer); // the new input is the output
+
+    // apply the activation function
+    layer_activationFunction(output, layer);
+
+    return output;
+}
+
+/**
  * Frees Layer struct.
  * @param layer
  */
