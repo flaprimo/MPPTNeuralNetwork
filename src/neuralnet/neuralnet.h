@@ -10,10 +10,19 @@
 
 typedef struct neuralNet_t {
     int inputLength;
+    double *minInput;
+    double *maxInput;
+
+    int outputLength;
+    double *minOutput;
+    double *maxOutput;
+
     List *layerList;
 } NeuralNet;
 
-NeuralNet *neuralnet_get(int inputLength);
+NeuralNet *neuralnet_get(int inputLength, double *minInput, double *maxInput, int outputLength, double *minOutput,
+                         double *maxOutput, List *layerList);
+NeuralNet *neuralnet_importFile(char *neuralnetFilePath);
 double *neuralnet_compute(double *input, NeuralNet *neuralNet);
 void neuralnet_free(NeuralNet *neuralnet);
 

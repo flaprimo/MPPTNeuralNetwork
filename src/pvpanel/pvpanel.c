@@ -47,6 +47,12 @@ PvPanel *pvpanel_get(double vCurr, PvPanelSpec *pvpanelSpec)
     return pvpanel;
 }
 
+void pvpanel_free(PvPanel *pvpanel)
+{
+    pvpanelSpec_free(pvpanel->pvpanelSpec);
+    free(pvpanel);
+}
+
 /**
  * Prints the photovoltaic panel.
  * @param pvpanel

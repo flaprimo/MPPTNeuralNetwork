@@ -34,6 +34,7 @@ typedef struct pvPanelSpec_t {
 } PvPanelSpec;
 
 PvPanelSpec *pvpanelSpec_get();
+void pvpanelSpec_free(PvPanelSpec *pvpanelSpec);
 void pvpanelSpec_print(PvPanelSpec *pvpanelSpec);
 
 #endif //MPPTNEURALNETWORK_PVPANELSPEC_H

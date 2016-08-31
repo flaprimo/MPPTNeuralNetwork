@@ -1,6 +1,20 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "layer.h"
+
+/**
+ * Given a the coordinates of a bidimensional array, it returns the corresponding coordinates of a bidimensional array
+ * implemented as a vector.
+ * @param rowLength
+ * @param rowIndex
+ * @param columnIndex
+ * @return
+ */
+int arrayCoordinatesToIndex(int rowLength, int rowIndex, int columnIndex)
+{
+    return rowLength * rowIndex + columnIndex;
+}
 
 /**
  * Given rowNumber, columnNumber, it returns a Layer object.
@@ -9,21 +23,17 @@
  * @param matrix
  * @return
  */
-Layer *layer_get(int rowLength, int columnLength, TransferFunc_type transferFunction)
+Layer *layer_get(int rowLength, int columnLength, double *weightArray, double *biasArray, TransferFunc_type transferFunction)
 {
-    Layer *weight = malloc(sizeof(Layer));
+    Layer *layer = malloc(sizeof(Layer));
 
-    weight->rowLength = rowLength;
-    weight->columnLength = columnLength;
-    weight->weightArray = malloc(sizeof(double *) * rowLength);
-    for (int i = 0; i < rowLength; i++)
-        weight->weightArray[i] = calloc((unsigned int) columnLength, sizeof(double)); // unsigned
+    layer->rowLength = rowLength;
+    layer->columnLength = columnLength;
+    layer->weightArray = weightArray;
+    layer->bias = biasArray;
+    layer->transferFunction = transferFunc_get(transferFunction);
 
-
-    weight->bias = calloc((unsigned int) columnLength, sizeof(double));
-    weight->transferFunction = transferFunc_get(transferFunction);
-
-    return weight;
+    return layer;
 }
 
 /**
@@ -36,9 +46,9 @@ double *layer_weightedSum(double *input, Layer *layer)
 {
     double *output = calloc((unsigned int) layer->columnLength, sizeof(double));
 
-    for (int i = 0; i < layer->rowLength; i++)
-        for (int j = 0; j < layer->columnLength; j++)
-            output[j] += input[i] * layer->weightArray[i][j];
+    for (int i = 0; i < layer->columnLength; i++)
+        for (int j = 0; j < layer->rowLength; j++)
+            output[i] += input[j] * layer->weightArray[arrayCoordinatesToIndex(layer->rowLength, i, j)];
 
     return output;
 }
@@ -72,14 +82,69 @@ double *layer_compute(double *input, Layer *layer)
 }
 
 /**
+ * Given the path to a file containing a layer configuration, it returns a layer.
+ * @param layerFilePath
+ * @return
+ */
+Layer *layer_importFile(char *layerFilePath)
+{
+    // declare and initialize default values
+    int rowLength = 0;
+    int columnLength = 0;
+    double *weightArray = NULL;
+    double *biasArray = NULL;
+    TransferFunc_type transferFunction = LINEAR;
+
+    char temp[21];
+
+    FILE *file = fopen(layerFilePath, "r"); // ../res/layer1.nnlayer
+
+    // read row length
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#ROW_LENGTH") == 0)
+        fscanf(file, "%d", &rowLength);
+
+    // read column length
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#COLUMN_LENGTH") == 0)
+        fscanf(file, "%d", &columnLength);
+
+    // read weight matrix
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#WEIGHT") == 0) {
+        weightArray = malloc(sizeof(double) * rowLength * columnLength);
+
+        for (int i = 0; i < rowLength * columnLength; i++)
+            fscanf(file, "%lf", &weightArray[(i % columnLength) * rowLength + (i / columnLength)]);
+    }
+
+    // read bias matrix
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#BIAS") == 0) {
+        biasArray = malloc(sizeof(double) * columnLength);
+
+        for (int i = 0; i < columnLength; i++)
+            fscanf(file, "%lf", &biasArray[i]);
+    }
+
+    // read transfer function
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#TRANSFER_FUNCTION") == 0) {
+        fscanf(file, "%20s", temp);
+        transferFunction = transferFunc_stringToEnumType(temp);
+    }
+
+    fclose(file);
+
+    return layer_get(rowLength, columnLength, weightArray, biasArray, transferFunction);
+}
+
+/**
  * Frees Layer struct.
  * @param layer
  */
 void layer_free(Layer *layer)
 {
-    for (int i = 0; i < layer->rowLength; i++)
-        free(layer->weightArray[i]);
-
     free(layer->weightArray);
     free(layer->bias);
     free(layer);
@@ -106,19 +171,18 @@ void layer_print(Layer *layer)
     printf("  rowLength: %d\n", layer->rowLength);
     printf("  columnLength: %d\n", layer->columnLength);
 
-    printf("  weightArray: {\n");
-    for (int i = 0; i < layer->rowLength; i++) {
-        printf("    | ");
-        for (int j = 0; j < layer->columnLength; j++)
-            printf("%f ", layer->weightArray[i][j]);
-        printf("|\n");
+    printf("  weightArray: {\n    ");
+    for (int i = 0; i < layer->rowLength * layer->columnLength; i++) {
+        if (i % layer->rowLength == 0 && i != 0)
+            printf("\n    ");
+        printf("%f ", layer->weightArray[i]);
     }
-    printf("  }\n");
+    printf("\n  }\n");
 
-    printf("  bias: {\n    | ");
+    printf("  bias: {\n    ");
     for (int i = 0; i < layer->columnLength; i++)
         printf("%f ", layer->bias[i]);
-    printf("|\n  }\n");
+    printf("\n  }\n");
 
     printf("}\n\n");
 }

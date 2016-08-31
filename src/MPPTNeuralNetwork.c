@@ -5,16 +5,15 @@
 
 int main()
 {
-    Chronograph *chronograph = chronograph_get();
-
     PvPanelNN *pvpanelNN = pvpanelNN_get();
 
-    double *input = malloc(sizeof(double) * pvpanelNN->inputLength);
+    double *input = malloc(sizeof(double) * 3);
     input[0] = 976.866035758628;
     input[1] = 392.167166311451;
     input[2] = 342.621019067798;
 
-    double *output = pvpanelNN_compute(pvpanelNN, input);
+    Chronograph *chronograph = chronograph_get();
+    double *output = neuralnet_compute(input, pvpanelNN->neuralNet);
 
     printf("\nFINAL OUTPUT: %f", output[0]);
 

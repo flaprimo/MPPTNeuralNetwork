@@ -6,3 +6,6 @@ add_subdirectory(neuralnet)
 add_subdirectory(pvpanelnn)
 
 target_link_libraries (MPPTNeuralNetwork helper pvpanel neuralnet pvpanelnn)
+
+# resources folder
+file(COPY ../res DESTINATION ../)

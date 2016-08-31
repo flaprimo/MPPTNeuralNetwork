@@ -51,6 +51,11 @@ PvPanelSpec *pvpanelSpec_get()
     return pvpanelSpec;
 }
 
+void pvpanelSpec_free(PvPanelSpec *pvpanelSpec)
+{
+    free(pvpanelSpec);
+}
+
 /**
  * Prints the photovoltaic panel specifications.
  * @param pvpanelSpec
