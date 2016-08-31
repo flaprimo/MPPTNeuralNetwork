@@ -31,9 +31,8 @@ double *neuralnet_compute(double *input, NeuralNet *neuralNet)
         // compute the weighted sum
         input = layer_weightedSum(input, currentLayer); // the new input is the output
 
-        // apply activation function
-        for (int i = 0; i < currentLayer->columnLength; i++)
-            input[i] = currentLayer->transferFunction(input[i] + currentLayer->bias[i]);
+        // apply the activation function
+        layer_activationFunction(input, currentLayer);
 
         layerList = layerList->next;
     }

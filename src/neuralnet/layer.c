@@ -4,7 +4,6 @@
 
 /**
  * Given rowNumber, columnNumber, it returns a Layer object.
- * weightArray is defined as a bidimensional array.
  * @param rowLength
  * @param columnLength
  * @param matrix
@@ -42,6 +41,17 @@ double *layer_weightedSum(double *input, Layer *layer)
             output[j] += input[i] * layer->weightArray[i][j];
 
     return output;
+}
+
+/**
+ * Given the result of a weighted sum and a Layer struct, it apply the activation function to the current result.
+ * @param output
+ * @param layer
+ */
+void layer_activationFunction(double *output, Layer *layer)
+{
+    for (int i = 0; i < layer->columnLength; i++)
+        output[i] = layer->transferFunction(output[i] + layer->bias[i]);
 }
 
 /**
