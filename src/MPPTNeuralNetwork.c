@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pvpanelnn/pvpanelNN.h"
+#include "pvpanel/pvpanelNN.h"
 #include "helper/chronograph.h"
 
 int main()

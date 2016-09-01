@@ -113,7 +113,7 @@ NeuralNet *neuralnet_importFile(char *neuralnetFilePath)
 }
 
 /**
- * Given an input and a PvPanelNN, it normalizes the input.
+ * Given an input and a NeuralNet, it normalizes the input.
  * inputN = (1+1) * (Input' - MinInput) ./ (MaxInput - MinInput) - [1 1 1];
  * @param neuralNet
  * @param input
@@ -130,7 +130,7 @@ double *neuralnet_normalizeInput(NeuralNet *neuralNet, double *input)
 }
 
 /**
- * Given an output and a PvPanelNN, it normalizes the output.
+ * Given an output and a NeuralNet, it normalizes the output.
  * outputN = (MaxOutput - MinOutput) * (NN_output + 1) / (1+1) + MinOutput;
  * @param neuralNet
  * @param output

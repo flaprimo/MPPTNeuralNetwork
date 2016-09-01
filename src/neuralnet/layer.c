@@ -37,34 +37,6 @@ Layer *layer_get(int rowLength, int columnLength, double *weightArray, double *b
 }
 
 /**
- * Given an input array and a Layer struct, it returns the weighted sum beetween input and weights.
- * @param input array length is equal to rowLength of the Layer struct.
- * @param layer array with the length equal to columnLength of the Layer struct.
- * @return
- */
-double *layer_weightedSum(double *input, Layer *layer)
-{
-    double *output = calloc((unsigned int) layer->columnLength, sizeof(double));
-
-    for (int i = 0; i < layer->columnLength; i++)
-        for (int j = 0; j < layer->rowLength; j++)
-            output[i] += input[j] * layer->weightArray[arrayCoordinatesToIndex(layer->rowLength, i, j)];
-
-    return output;
-}
-
-/**
- * Given the result of a weighted sum and a Layer struct, it apply the activation function to the current result.
- * @param output
- * @param layer
- */
-void layer_activationFunction(double *output, Layer *layer)
-{
-    for (int i = 0; i < layer->columnLength; i++)
-        output[i] = layer->transferFunction(output[i] + layer->bias[i]);
-}
-
-/**
  * Computes a layer with the weighted sum and activation function.
  * @param input
  * @param layer
@@ -72,11 +44,16 @@ void layer_activationFunction(double *output, Layer *layer)
  */
 double *layer_compute(double *input, Layer *layer)
 {
-    // compute the weighted sum
-    double *output = layer_weightedSum(input, layer); // the new input is the output
+    double *output = calloc((unsigned int) layer->columnLength, sizeof(double));
 
-    // apply the activation function
-    layer_activationFunction(output, layer);
+    for (int i = 0; i < layer->columnLength; i++) {
+        // compute weighted sum
+        for (int j = 0; j < layer->rowLength; j++)
+            output[i] += input[j] * layer->weightArray[arrayCoordinatesToIndex(layer->rowLength, i, j)];
+
+        // add bias and apply the activation function
+        output[i] = layer->transferFunction(output[i] + layer->bias[i]);
+    }
 
     return output;
 }

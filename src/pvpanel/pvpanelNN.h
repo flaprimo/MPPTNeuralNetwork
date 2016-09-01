@@ -1,7 +1,7 @@
 #ifndef MPPTNEURALNETWORK_PVPANELNN_H
 #define MPPTNEURALNETWORK_PVPANELNN_H
 
-#include "../pvpanel/pvpanel.h"
+#include "pvpanel.h"
 #include "../neuralnet/neuralnet.h"
 
 typedef struct pvPanelNN_t {
