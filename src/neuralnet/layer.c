@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pthread.h>
 #include "layer.h"
+
+const int THREAD_NUMBER = 3;
 
 /**
  * Given a the coordinates of a bidimensional array, it returns the corresponding coordinates of a bidimensional array
@@ -54,6 +57,75 @@ double *layer_compute(double *input, Layer *layer)
         // add bias and apply the activation function
         output[i] = layer->transferFunction(output[i] + layer->bias[i]);
     }
+
+    return output;
+}
+
+void *layer_compute_worker(void *voidWorkerArgs) {
+
+    LayerWorker *workerArgs = (LayerWorker *) voidWorkerArgs;
+
+    for (int i = workerArgs->startWeight; i < workerArgs->endWeight + 1; i++) {
+        // compute weighted sum
+        for (int j = 0; j < workerArgs->layer->rowLength; j++)
+            workerArgs->output[i] += workerArgs->input[j] *
+                    workerArgs->layer->weightArray[arrayCoordinatesToIndex(workerArgs->layer->rowLength, i, j)];
+
+        // add bias and apply the activation function
+        workerArgs->output[i] = workerArgs->layer->transferFunction(workerArgs->output[i] + workerArgs->layer->bias[i]);
+    }
+
+    return NULL;
+}
+
+double *layer_computeMT(double *input, Layer *layer)
+{
+    // get number of usable threads
+    int threadNumber;
+
+    if (layer->columnLength < THREAD_NUMBER)
+        threadNumber = layer->columnLength;
+    else
+        threadNumber = THREAD_NUMBER;
+
+    // create thread array
+    pthread_t threadArray[threadNumber];
+
+    // compute the number of weights a thread should handle
+    int div = layer->columnLength / threadNumber;
+    int rem = layer->columnLength % threadNumber;
+
+    // initialize output
+    double *output = calloc((unsigned int) layer->columnLength, sizeof(double));
+
+    //initialize workerArgs
+    LayerWorker *layerWorkerArray = malloc(sizeof(LayerWorker) * threadNumber);
+
+    int counter = 0;
+
+    for (int i = 0; i < threadNumber; i++) {
+        // prepare worker args
+        layerWorkerArray[i].startWeight = counter;
+        layerWorkerArray[i].endWeight = layerWorkerArray[i].startWeight + div - 1;
+        if (rem > 0) {
+            layerWorkerArray[i].endWeight += 1;
+            rem--;
+        }
+        layerWorkerArray[i].layer = layer;
+        layerWorkerArray[i].input = input;
+        layerWorkerArray[i].output = output;
+
+        counter = layerWorkerArray[i].endWeight + 1;
+
+        // create and start thread worker
+        pthread_create(&threadArray[i], NULL, layer_compute_worker, &layerWorkerArray[i]);
+    }
+
+    // make worker finish
+    for (int i = 0; i < threadNumber; i++)
+        pthread_join(threadArray[i], NULL);
+
+    free(layerWorkerArray);
 
     return output;
 }

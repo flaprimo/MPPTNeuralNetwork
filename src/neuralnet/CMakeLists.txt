@@ -1,4 +1,4 @@
 file(GLOB SOURCES *.c *.h)
 add_library(neuralnet ${SOURCES})
 
-target_link_libraries(neuralnet m helper)
+target_link_libraries(neuralnet m pthread helper)
