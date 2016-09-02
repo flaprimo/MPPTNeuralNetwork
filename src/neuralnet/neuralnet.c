@@ -9,7 +9,7 @@
  * @return
  */
 NeuralNet *neuralnet_get(int inputLength, double *minInput, double *maxInput, int outputLength, double *minOutput,
-                         double *maxOutput, List *layerList)
+                         double *maxOutput, int layerLength, Layer *layerArray)
 {
     NeuralNet *neuralNet = malloc(sizeof(NeuralNet));
 
@@ -21,7 +21,8 @@ NeuralNet *neuralnet_get(int inputLength, double *minInput, double *maxInput, in
     neuralNet->minOutput = minOutput;
     neuralNet->maxOutput = maxOutput;
 
-    neuralNet->layerList = layerList;
+    neuralNet->layerLength = layerLength;
+    neuralNet->layerArray = layerArray;
 
     return neuralNet;
 }
@@ -42,7 +43,8 @@ NeuralNet *neuralnet_importFile(char *neuralnetFilePath)
     double *minOutput = NULL;
     double *maxOutput = NULL;
 
-    List *layerList = NULL;
+    int layerLength = 0;
+    Layer *layerArray = NULL;
 
     char temp[21];
 
@@ -94,22 +96,28 @@ NeuralNet *neuralnet_importFile(char *neuralnetFilePath)
             fscanf(file, "%lf", &maxOutput[i]);
     }
 
+    fscanf(file, "%20s", temp);
+    if (strcmp(temp, "#LAYER_LENGTH") == 0)
+        fscanf(file, "%d", &layerLength);
+
     // read layers
     fscanf(file, "%20s", temp);
     if (strcmp(temp, "#LAYERS") == 0) {
-        while(fscanf(file, "%20s", temp) != EOF) {
+        layerArray = malloc(sizeof(Layer) * layerLength);
+
+        for (int i = 0; i < layerLength; i++) {
+            fscanf(file, "%20s", temp);
             char layerPath[20] = "../res/";
             strcat(layerPath, temp);
 
-            Layer *layer = layer_importFile(layerPath);
-            layer_print(layer);
-            list_addLast(&layerList, layer);
+            layerArray[i] = *layer_importFile(layerPath);
+            layer_print(&layerArray[i]);
         }
     }
 
     fclose(file);
 
-    return neuralnet_get(inputLength, minInput, maxInput, outputLength, minOutput, maxOutput, layerList);
+    return neuralnet_get(inputLength, minInput, maxInput, outputLength, minOutput, maxOutput, layerLength, layerArray);
 }
 
 /**
@@ -154,16 +162,10 @@ double *neuralnet_normalizeOutput(NeuralNet *neuralNet, double *output)
  */
 double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
-    List *layerList = neuralNet->layerList;
     double *currentOutput = neuralnet_normalizeInput(neuralNet, input);
 
-    while (layerList) {
-        Layer *currentLayer = (Layer *) layerList->info;
-
-        currentOutput = layer_compute(currentOutput, currentLayer);
-
-        layerList = layerList->next;
-    }
+    for (int i = 0; i < neuralNet->layerLength; i++)
+        currentOutput = layer_compute(currentOutput, &neuralNet->layerArray[i]);
 
     return neuralnet_normalizeOutput(neuralNet, currentOutput);
 }

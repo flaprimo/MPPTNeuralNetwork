@@ -4,7 +4,7 @@
 #include <pthread.h>
 #include "layer.h"
 
-const int THREAD_NUMBER = 3;
+const int THREAD_NUMBER = 2;
 
 /**
  * Given a the coordinates of a bidimensional array, it returns the corresponding coordinates of a bidimensional array
@@ -61,6 +61,11 @@ double *layer_compute(double *input, Layer *layer)
     return output;
 }
 
+/**
+ * Thread worker for layer_computeMT.
+ * @param voidWorkerArgs
+ * @return
+ */
 void *layer_compute_worker(void *voidWorkerArgs) {
 
     LayerWorker *workerArgs = (LayerWorker *) voidWorkerArgs;
@@ -78,6 +83,12 @@ void *layer_compute_worker(void *voidWorkerArgs) {
     return NULL;
 }
 
+/**
+ * Computes a layer with the weighted sum and activation function using multi-threading, balancing equally each thread with the sums.
+ * @param input
+ * @param layer
+ * @return
+ */
 double *layer_computeMT(double *input, Layer *layer)
 {
     // get number of usable threads
