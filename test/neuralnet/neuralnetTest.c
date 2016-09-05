@@ -8,50 +8,16 @@ TEST_GROUP(neuralnetTest);
  * FIXTURES
  */
 NeuralNet *neuralNet1;
-Layer *weight1;
-Layer *weight2;
 
 // run before each test
 TEST_SETUP(neuralnetTest)
 {
-    int inputLength = 3;
-
-    // create weight1 and weight2
-    weight1 = layer_get(inputLength, 5);
-    weight2 = layer_get(1, 1);
-
-    // initialize weight1 and weight2
-    for (int i = 0; i < weight1->rowLength; i++)
-        for (int j = 0; j < weight1->columnLength; j++)
-            weight1->weightArray[i][j] = 1;
-
-    for (int i = 0; i < weight2->rowLength; i++)
-        for (int j = 0; j < weight2->columnLength; j++)
-            weight2->weightArray[i][j] = 1;
-
-    // create and initialize neuralNet1
-    neuralNet1 = neuralnet_get(inputLength);
-    list_addLast(&neuralNet1->layerList, weight1);
-    list_addLast(&neuralNet1->layerList, weight2);
-
-    // create and initialize input
-    double *input = malloc(sizeof(double) * inputLength);
-
-    for (int i = 0; i < inputLength; i++)
-        input[i] = 1;
-
-    // compute the neural net
-    double *output = neuralnet_compute(input, neuralNet1);
-
-    TEST_ASSERT_EQUAL(output[0], 0.721633);
-
-    free(input);
+    neuralNet1 = neuralnet_importFile("../res/default.nnconf");
 }
 
 // run after each test
 TEST_TEAR_DOWN(neuralnetTest)
 {
-    neuralnet_free(neuralNet1);
 }
 
 /*

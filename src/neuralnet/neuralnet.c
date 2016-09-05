@@ -164,25 +164,30 @@ double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 {
     double *currentOutput = neuralnet_normalizeInput(neuralNet, input);
 
-    for (int i = 0; i < neuralNet->layerLength; i++)
+    for (int i = 0; i < neuralNet->layerLength; i++) {
+        double *oldOutput = currentOutput;
         currentOutput = layer_compute(currentOutput, &neuralNet->layerArray[i]);
+        free(oldOutput);
+    }
 
     return neuralnet_normalizeOutput(neuralNet, currentOutput);
 }
 
 /**
  * Frees NeuralNet struct.
- * @param neuralnet
+ * @param neuralNet
  */
-void neuralnet_free(NeuralNet *neuralnet)
+void neuralnet_free(NeuralNet *neuralNet)
 {
-    free(neuralnet->minInput);
-    free(neuralnet->maxInput);
-    free(neuralnet->minInput);
-    free(neuralnet->maxInput);
+    free(neuralNet->minInput);
+    free(neuralNet->maxInput);
+    free(neuralNet->minInput);
+    free(neuralNet->maxInput);
 
-    list_removeAll(&neuralnet->layerList, layer_freeVoidPointer);
-    free(neuralnet->layerList);
+    for (int i = 0; i < neuralNet->layerLength; i++)
+        layer_free(&neuralNet->layerArray[i]);
 
-    free(neuralnet);
+    free(neuralNet->layerArray);
+
+    free(neuralNet);
 }

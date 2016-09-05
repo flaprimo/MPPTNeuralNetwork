@@ -6,15 +6,13 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(listTest);
 
     // neuralnet
-    RUN_TEST_GROUP(weightTest);
+    RUN_TEST_GROUP(layerTest);
+    RUN_TEST_GROUP(transferFuncTest);
     RUN_TEST_GROUP(neuralnetTest);
 
     // pvpanel
     RUN_TEST_GROUP(pvpanelSpecTest);
     RUN_TEST_GROUP(pvpanelTest);
-
-    // pvpanelnn
-    RUN_TEST_GROUP(pvpanelNNTest);
 }
 
 int main(int argc, const char *argv[])

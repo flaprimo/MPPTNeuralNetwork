@@ -27,6 +27,6 @@ NeuralNet *neuralnet_get(int inputLength, double *minInput, double *maxInput, in
                          double *maxOutput, int layerLength, Layer *layerArray);
 NeuralNet *neuralnet_importFile(char *neuralnetFilePath);
 double *neuralnet_compute(double *input, NeuralNet *neuralNet);
-void neuralnet_free(NeuralNet *neuralnet);
+void neuralnet_free(NeuralNet *neuralNet);
 
 #endif //MPPTNEURALNETWORK_NEURALNET_H

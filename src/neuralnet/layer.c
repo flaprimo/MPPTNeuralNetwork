@@ -66,8 +66,8 @@ double *layer_compute(double *input, Layer *layer)
  * @param voidWorkerArgs
  * @return
  */
-void *layer_compute_worker(void *voidWorkerArgs) {
-
+void *layer_compute_worker(void *voidWorkerArgs)
+{
     LayerWorker *workerArgs = (LayerWorker *) voidWorkerArgs;
 
     for (int i = workerArgs->startWeight; i < workerArgs->endWeight + 1; i++) {
@@ -208,16 +208,6 @@ void layer_free(Layer *layer)
     free(layer->weightArray);
     free(layer->bias);
     free(layer);
-}
-
-/**
- * Frees Layer struct passed as a void pointer. Use if layer are used in a list.
- * @param layerVoidPointer
- */
-void layer_freeVoidPointer(void *layerVoidPointer)
-{
-    if (layerVoidPointer != NULL)
-        layer_free((Layer *) layerVoidPointer);
 }
 
 /**
