@@ -116,11 +116,12 @@ void pvpanelNN_simulate(PvPanelNN *pvPanelNN)
         pvpanel_update(pvPanelNN->temperatureArray[i], pvPanelNN->irradianceArray[i], pvPanelNN->pvpanel);
 
         input[0] = voltage[i-1]; // V
-        input[1] = pvpanel_newtonRaphson(pvPanelNN->pvpanel, current[i-1]); // I
+        input[1] = current[i-1]; // I
         input[2] = pvPanelNN->temperatureArray[i]; // T
 
         voltage[i] = neuralnet_compute(input, pvPanelNN->neuralNet)[0];
         current[i] = pvpanel_newtonRaphson(pvPanelNN->pvpanel, voltage[i]);
+
     }
 
     // Print results
