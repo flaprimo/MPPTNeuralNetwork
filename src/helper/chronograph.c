@@ -40,7 +40,10 @@ double chronograph_getDelta(Chronograph *chronograph)
  * @param chronograph
  * @return
  */
-void chronograph_free(Chronograph *chronograph)
+void chronograph_free(Chronograph **chronograph)
 {
-    free(chronograph);
+    if (*chronograph) {
+        free(*chronograph);
+        *chronograph = NULL;
+    }
 }

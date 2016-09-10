@@ -39,7 +39,7 @@ typedef struct pvPanel_t {
 PvPanel *pvpanel_get(double vCurr);
 double pvpanel_newtonRaphson(PvPanel *pvpanel, double vCurr);
 void pvpanel_update(double temperature, double irradiance, PvPanel *pvpanel);
-void pvpanel_free(PvPanel *pvpanel);
+void pvpanel_free(PvPanel **pvpanel);
 void pvpanel_print(PvPanel *pvpanel);
 
 #endif //MPPTNEURALNETWORK_PVPANEL_H

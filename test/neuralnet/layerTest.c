@@ -33,7 +33,7 @@ TEST_TEAR_DOWN(layerTest)
 {
     free(layer1->weightArray);
     free(layer1->bias);
-    //layer_free(layer1);
+    //layer_free(&layer1);
 }
 
 /*

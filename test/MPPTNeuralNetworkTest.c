@@ -3,7 +3,7 @@
 static void RunAllTests(void)
 {
     // helper
-    RUN_TEST_GROUP(listTest);
+    RUN_TEST_GROUP(chronographTest);
 
     // neuralnet
     RUN_TEST_GROUP(layerTest);

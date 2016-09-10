@@ -87,9 +87,12 @@ void pvpanel_update(double temperature, double irradiance, PvPanel *pvpanel)
     pvpanel->irr = pvpanel->irRef * pvpanel->g / pvpanel->gRef * (1 + pvpanel->alpha * (pvpanel->t - pvpanel->tRef)) * pvpanel->nP;
 }
 
-void pvpanel_free(PvPanel *pvpanel)
+void pvpanel_free(PvPanel **pvpanel)
 {
-    free(pvpanel);
+    if (*pvpanel) {
+        free(*pvpanel);
+        *pvpanel = NULL;
+    }
 }
 
 /**

@@ -17,6 +17,7 @@ TEST_SETUP(neuralnetTest)
 // run after each test
 TEST_TEAR_DOWN(neuralnetTest)
 {
+    neuralnet_free(&neuralNet1);
 }
 
 /*

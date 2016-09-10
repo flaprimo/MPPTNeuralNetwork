@@ -7,6 +7,6 @@ typedef struct chronograph_t {
 
 Chronograph *chronograph_get();
 double chronograph_getDelta(Chronograph *chronograph);
-void chronograph_free(Chronograph *chronograph);
+void chronograph_free(Chronograph **chronograph);
 
 #endif //MPPTNEURALNETWORK_CHRONOGRAPH_H

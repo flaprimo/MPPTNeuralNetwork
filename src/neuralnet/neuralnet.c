@@ -176,17 +176,30 @@ double *neuralnet_compute(double *input, NeuralNet *neuralNet)
  * Frees NeuralNet struct.
  * @param neuralNet
  */
-void neuralnet_free(NeuralNet *neuralNet)
+void neuralnet_free(NeuralNet **neuralNet)
 {
-    free(neuralNet->minInput);
-    free(neuralNet->maxInput);
-    free(neuralNet->minInput);
-    free(neuralNet->maxInput);
+    if (*neuralNet) {
+        free((*neuralNet)->minInput);
+        (*neuralNet)->minInput = NULL;
 
-    for (int i = 0; i < neuralNet->layerLength; i++)
-        layer_free(&neuralNet->layerArray[i]);
+        free((*neuralNet)->maxInput);
+        (*neuralNet)->maxInput = NULL;
 
-    free(neuralNet->layerArray);
+        free((*neuralNet)->minInput);
+        (*neuralNet)->minInput = NULL;
 
-    free(neuralNet);
+        free((*neuralNet)->maxInput);
+        (*neuralNet)->maxInput = NULL;
+
+        for (int i = 0; i < (*neuralNet)->layerLength; i++) {
+            Layer *layer = &(*neuralNet)->layerArray[i];
+            layer_free(&layer);
+        }
+
+        free((*neuralNet)->layerArray);
+        (*neuralNet)->layerArray = NULL;
+
+        free(*neuralNet);
+        *neuralNet = NULL;
+    }
 }

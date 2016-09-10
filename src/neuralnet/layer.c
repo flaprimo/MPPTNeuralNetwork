@@ -157,7 +157,7 @@ Layer *layer_importFile(char *layerFilePath)
 
     char temp[21];
 
-    FILE *file = fopen(layerFilePath, "r"); // ../res/layer1.nnlayer
+    FILE *file = fopen(layerFilePath, "r"); // ../res/default1.nnlayer
 
     // read row length
     fscanf(file, "%20s", temp);
@@ -203,11 +203,19 @@ Layer *layer_importFile(char *layerFilePath)
  * Frees Layer struct.
  * @param layer
  */
-void layer_free(Layer *layer)
+void layer_free(Layer **layer)
 {
-    free(layer->weightArray);
-    free(layer->bias);
-    free(layer);
+    if (*layer) {
+        free((*layer)->weightArray);
+        (*layer)->weightArray = NULL;
+
+        free((*layer)->bias);
+        (*layer)->bias = NULL;
+
+        if (*layer == NULL)
+        free(*layer);
+        *layer = NULL;
+    }
 }
 
 /**

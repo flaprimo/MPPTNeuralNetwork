@@ -30,7 +30,7 @@ Layer *layer_get(int rowLength, int columnLength, double *weightArray, double *b
 double *layer_compute(double *input, Layer *layer);
 double *layer_computeMT(double *input, Layer *layer);
 Layer *layer_importFile(char *layerFilePath);
-void layer_free(Layer *layer);
+void layer_free(Layer **layer);
 void layer_print(Layer *layer);
 
 #endif //MPPTNEURALNETWORK_LAYER_H
