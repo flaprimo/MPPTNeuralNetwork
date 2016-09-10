@@ -1,6 +1,5 @@
 #include "../unity/unity_fixture.h"
 #include "../../src/neuralnet/neuralnet.h"
-#include "../../src/neuralnet/layer.h"
 
 TEST_GROUP(neuralnetTest);
 
@@ -23,9 +22,18 @@ TEST_TEAR_DOWN(neuralnetTest)
 /*
  * UNIT TESTS
  */
-TEST(neuralnetTest, neuralnet_getTest)
+TEST(neuralnetTest, neuralnet_compute)
 {
-    TEST_ASSERT_EQUAL(0, 0);
+    double *input = malloc(sizeof(double) * 3);
+    input[0] = 976.866035758628; // V
+    input[1] = 392.167166311451; // I
+    input[2] = 342.621019067798; // T
+
+    double *output = neuralnet_compute(input, neuralNet1);
+
+    TEST_ASSERT_EQUAL(976.164177, output[0]);
+
+    free(input);
 }
 
 /*
@@ -33,5 +41,5 @@ TEST(neuralnetTest, neuralnet_getTest)
  */
 TEST_GROUP_RUNNER(neuralnetTest)
 {
-    RUN_TEST_CASE(neuralnetTest, neuralnet_getTest);
+    RUN_TEST_CASE(neuralnetTest, neuralnet_compute);
 }
