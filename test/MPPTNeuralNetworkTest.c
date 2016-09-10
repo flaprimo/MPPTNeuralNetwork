@@ -11,7 +11,6 @@ static void RunAllTests(void)
     RUN_TEST_GROUP(neuralnetTest);
 
     // pvpanel
-    RUN_TEST_GROUP(pvpanelSpecTest);
     RUN_TEST_GROUP(pvpanelTest);
 }
 

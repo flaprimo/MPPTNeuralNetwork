@@ -5,7 +5,7 @@ PvPanelNN *pvpanelNN_get()
 {
     PvPanelNN *pvpanelNN = malloc(sizeof(PvPanelNN));
 
-    pvpanelNN->pvpanel = pvpanel_get(1100, pvpanelSpec_get());
+    pvpanelNN->pvpanel = pvpanel_get(1100);
     pvpanelNN->neuralNet = neuralnet_importFile("../res/default.nnconf");
 
     return pvpanelNN;
