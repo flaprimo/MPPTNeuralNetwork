@@ -111,7 +111,6 @@ NeuralNet *neuralnet_importFile(char *neuralnetFilePath)
             strcat(layerPath, temp);
 
             layerArray[i] = *layer_importFile(layerPath);
-            layer_print(&layerArray[i]);
         }
     }
 

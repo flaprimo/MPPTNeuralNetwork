@@ -5,7 +5,14 @@
 
 int main()
 {
-    PvPanelNN *pvpanelNN = pvpanelNN_get();
+    PvPanelNN *pvpanelNN = pvpanelNN_importFile("../res/default.nnsimulation");
+
+    Chronograph *chronograph = chronograph_get();
+    pvpanelNN_simulate(pvpanelNN);
+    printf("\nTOTAL TIME: %f", chronograph_getDelta(chronograph));
+    chronograph_free(chronograph);
+
+    /*PvPanelNN *pvpanelNN = pvpanelNN_get();
 
     double *input = malloc(sizeof(double) * 3);
     input[0] = 976.866035758628; // V
@@ -19,6 +26,8 @@ int main()
 
     printf("\nTOTAL TIME: %f", chronograph_getDelta(chronograph));
     chronograph_free(chronograph);
+
+    pvpanel_print(pvpanelNN->pvpanel);*/
 
     /*
     int rowLength = 2;
