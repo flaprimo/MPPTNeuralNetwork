@@ -68,7 +68,7 @@ double *layer_compute(double *input, Layer *layer)
  */
 void *layer_compute_worker(void *voidWorkerArgs)
 {
-    LayerWorker *workerArgs = (LayerWorker *) voidWorkerArgs;
+    LayerWorkerArgs *workerArgs = (LayerWorkerArgs *) voidWorkerArgs;
 
     for (int i = workerArgs->startWeight; i < workerArgs->endWeight + 1; i++) {
         // compute weighted sum
@@ -110,33 +110,31 @@ double *layer_computeMT(double *input, Layer *layer)
     double *output = calloc((unsigned int) layer->columnLength, sizeof(double));
 
     //initialize workerArgs
-    LayerWorker *layerWorkerArray = malloc(sizeof(LayerWorker) * threadNumber);
+    LayerWorkerArgs layerWorkerArgsArray[threadNumber];
 
     int counter = 0;
 
     for (int i = 0; i < threadNumber; i++) {
         // prepare worker args
-        layerWorkerArray[i].startWeight = counter;
-        layerWorkerArray[i].endWeight = layerWorkerArray[i].startWeight + div - 1;
+        layerWorkerArgsArray[i].startWeight = counter;
+        layerWorkerArgsArray[i].endWeight = layerWorkerArgsArray[i].startWeight + div - 1;
         if (rem > 0) {
-            layerWorkerArray[i].endWeight += 1;
+            layerWorkerArgsArray[i].endWeight += 1;
             rem--;
         }
-        layerWorkerArray[i].layer = layer;
-        layerWorkerArray[i].input = input;
-        layerWorkerArray[i].output = output;
+        layerWorkerArgsArray[i].layer = layer;
+        layerWorkerArgsArray[i].input = input;
+        layerWorkerArgsArray[i].output = output;
 
-        counter = layerWorkerArray[i].endWeight + 1;
+        counter = layerWorkerArgsArray[i].endWeight + 1;
 
         // create and start thread worker
-        pthread_create(&threadArray[i], NULL, layer_compute_worker, &layerWorkerArray[i]);
+        pthread_create(&threadArray[i], NULL, layer_compute_worker, &layerWorkerArgsArray[i]);
     }
 
     // make worker finish
     for (int i = 0; i < threadNumber; i++)
         pthread_join(threadArray[i], NULL);
-
-    free(layerWorkerArray);
 
     return output;
 }

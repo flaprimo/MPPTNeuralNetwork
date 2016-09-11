@@ -16,7 +16,7 @@ typedef struct layer_t {
     double (*transferFunction)(double);
 } Layer;
 
-typedef struct layer_worker_t {
+typedef struct layerWorkerArgs_t {
     int startWeight;
     int endWeight;
 
@@ -24,7 +24,7 @@ typedef struct layer_worker_t {
 
     double *input;
     double *output;
-} LayerWorker;
+} LayerWorkerArgs;
 
 Layer *layer_get(int rowLength, int columnLength, double *weightArray, double *biasArray, TransferFunc_type transferFunction);
 double *layer_compute(double *input, Layer *layer);
