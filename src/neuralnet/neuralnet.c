@@ -165,7 +165,7 @@ double *neuralnet_compute(double *input, NeuralNet *neuralNet)
 
     for (int i = 0; i < neuralNet->layerLength; i++) {
         double *oldOutput = currentOutput;
-        currentOutput = layer_computeMT(currentOutput, &neuralNet->layerArray[i]);
+        currentOutput = layer_compute(currentOutput, &neuralNet->layerArray[i]);
         free(oldOutput);
     }
 
