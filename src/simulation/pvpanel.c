@@ -27,14 +27,14 @@ double pvpanel_newtonRaphson(PvPanel *pvpanel, double vCurr)
 
     for (int i = 0; i < NEWTON_RAPHSON_ITERATIONS; i++) {
 
-        long double f = iCurr - (pvpanel->irr - pvpanel->io *
-                (expl(pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS * (vCurr + iCurr * pvpanel->rs)) - 1) -
+        double f = iCurr - (pvpanel->irr - pvpanel->io *
+                (exp(pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS * (vCurr + iCurr * pvpanel->rs)) - 1) -
                 (vCurr + iCurr * pvpanel->rs) / pvpanel->rp);
-        long double dF = 1 - (-pvpanel->io * pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS *
-                expl(pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS * (vCurr + iCurr * pvpanel->rs)) -
+        double dF = 1 - (-pvpanel->io * pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS *
+                exp(pvpanel->q / pvpanel->k / pvpanel->t / pvpanel->n / pvpanel->nS * (vCurr + iCurr * pvpanel->rs)) -
                 pvpanel->rs / pvpanel->rp);
 
-        iCurr = (double) (iCurr - f / dF);
+        iCurr = iCurr - f / dF;
     }
 
     return iCurr;
@@ -83,7 +83,7 @@ void pvpanel_update(double temperature, double irradiance, PvPanel *pvpanel)
     pvpanel->rp = pvpanel->rpRef * pvpanel->g / pvpanel->gRef * pvpanel->nS / pvpanel-> nP;
     pvpanel->eg = (1.16 - 7.02E-4 * (pow(pvpanel->t, 2) / (pvpanel->t - 1108))) * 1.602E-19;
     pvpanel->io = pvpanel->ioRef * pow(pvpanel->t / pvpanel->tRef, 3) *
-            expl(pvpanel->egRef / pvpanel->k / pvpanel->tRef - pvpanel->eg / pvpanel->k / pvpanel->t) * pvpanel->nP;
+            exp(pvpanel->egRef / pvpanel->k / pvpanel->tRef - pvpanel->eg / pvpanel->k / pvpanel->t) * pvpanel->nP;
     pvpanel->irr = pvpanel->irRef * pvpanel->g / pvpanel->gRef * (1 + pvpanel->alpha * (pvpanel->t - pvpanel->tRef)) * pvpanel->nP;
 }
 
@@ -103,17 +103,17 @@ void pvpanel_print(PvPanel *pvpanel)
 {
     printf("PvPanel {\n");
 
-    printf("  q: %Le\n", pvpanel->q);
-    printf("  k: %Le\n\n", pvpanel->k);
+    printf("  q: %f\n", pvpanel->q);
+    printf("  k: %f\n\n", pvpanel->k);
 
     printf("  tRef: %f\n", pvpanel->tRef);
     printf("  gRef: %f\n", pvpanel->gRef);
-    printf("  ioRef: %Le\n", pvpanel->ioRef);
+    printf("  ioRef: %f\n", pvpanel->ioRef);
     printf("  irRef: %f\n", pvpanel->irRef);
     printf("  rsRef: %f\n", pvpanel->rsRef);
     printf("  rpRef: %f\n", pvpanel->rpRef);
     printf("  nRef: %f\n", pvpanel->nRef);
-    printf("  egRef: %Le\n", pvpanel->egRef);
+    printf("  egRef: %f\n", pvpanel->egRef);
     printf("  alpha: %f\n\n", pvpanel->alpha);
 
     printf("  g: %f\n", pvpanel->g);
@@ -125,8 +125,8 @@ void pvpanel_print(PvPanel *pvpanel)
     printf("  n: %f\n", pvpanel->n);
     printf("  rs: %f\n", pvpanel->rs);
     printf("  rp: %f\n", pvpanel->rp);
-    printf("  eg: %Le\n", pvpanel->eg);
-    printf("  io: %Le\n", pvpanel->io);
+    printf("  eg: %f\n", pvpanel->eg);
+    printf("  io: %f\n", pvpanel->io);
     printf("  irr: %f\n\n", pvpanel->irr);
 
     printf("  vCurr: %f\n", pvpanel->vCurr);

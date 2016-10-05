@@ -6,17 +6,17 @@
 #define MPPTNEURALNETWORK_PVPANEL_H
 
 typedef struct pvPanel_t {
-    long double q;
-    long double k;
+    double q;
+    double k;
 
     double tRef;
     double gRef;
-    long double ioRef;
+    double ioRef;
     double irRef;
     double rsRef;
     double rpRef;
     double nRef;
-    long double egRef;
+    double egRef;
     double alpha;
 
     double g;
@@ -28,8 +28,8 @@ typedef struct pvPanel_t {
     double n;
     double rs;
     double rp;
-    long double eg;
-    long double io;
+    double eg;
+    double io;
     double irr;
 
     double vCurr;
