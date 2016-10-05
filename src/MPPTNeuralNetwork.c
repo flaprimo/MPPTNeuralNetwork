@@ -1,6 +1,7 @@
-#include <stdlib.h>
+/*#include <stdlib.h>
+#include <stdio.h>
+#include "helper/chronograph.h"*/
 #include "simulation/simulation.h"
-#include "helper/chronograph.h"
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
 
     simulation_free(&simulation);
 
-    /*Simulation *pvpanelNN = simulation_get();
+    /*NeuralNet *neuralNet = neuralnet_importFile("../res/default.nnconf");
 
     double *input = malloc(sizeof(double) * 3);
     input[0] = 976.866035758628; // V
@@ -18,37 +19,10 @@ int main()
     input[2] = 342.621019067798; // T
 
     Chronograph *chronograph = chronograph_get();
-    double *output = neuralnet_compute(input, pvpanelNN->neuralNet);
-
-    printf("\nFINAL OUTPUT: %f", output[0]);
+    double *output = neuralnet_compute(input, neuralNet);
 
     printf("\nTOTAL TIME: %f", chronograph_getDelta(chronograph));
-    chronograph_free(chronograph);
+    printf("\nFINAL OUTPUT: %f", output[0]);
 
-    pvpanel_print(pvpanelNN->pvpanel);*/
-
-
-    /*int rowLength = 2;
-    int columnLength = 6;
-
-    double *weightArray = malloc(sizeof(double) * rowLength * columnLength);
-    for (int i = 0; i < rowLength * columnLength; i++)
-        weightArray[i] = i;
-
-    double *biasArray = malloc(sizeof(double) * columnLength);
-    for (int i = 0; i < columnLength; i++)
-        biasArray[i] = i + 20;
-
-    TransferFunc_type transferFuncType = SIGMOID;
-
-    // create layer1
-    Layer *layer1 = layer_get(rowLength, columnLength, weightArray, biasArray, transferFuncType);
-    layer_print(layer1);
-
-    layer_free(&layer1);
-
-    Layer *layer2 = layer_importFile("../res/default0.nnlayer");
-    layer_print(layer2);
-
-    layer_free(&layer2);*/
+    chronograph_free(&chronograph);*/
 }
