@@ -1,7 +1,7 @@
 # MPPTNeuralNetwork
 Bachelor's degree thesis at Università degli Studi Roma Tre with title "Design and Implementation of a MPPT algorithm for photovoltaic panels based on neural networks". Feed-Forward Multi Layer Perceptron solution for MPPT for photovoltaic panels.
 More info and the thesis (in italian) on my [website](https://flavioprimo.xyz/programming-languages/design-implementation-mppt-algorithm-photovoltaic-panels-based-neural-networks/).
-Texas Instruments Launchpad Stellaris implementation available [here](https://github.com/flaprimo/MPPTNeuralNetwork/).
+Texas Instruments Launchpad Stellaris implementation available [here](https://github.com/flaprimo/MPPTNeuralNetworkEmbedded/).
 
 Includes 3 independent libraries:
 * **NeuralNet** - loads configuration files, manages and computes Feed-Forward Multi Layer Perceptron Neural Nets. By default it loads the Neural Net for solving MPPT. It takes voltage, current and temperature of the photovoltaic panel and outputs the optimal voltage to apply to the panel in order to get the MPP. 
